@@ -139,8 +139,8 @@ public class ChickenSpawner : MonoBehaviour
         // Создаём курицу в выбранной позиции
         GameObject chicken = Instantiate(chickenPrefab, spawnPosition, Quaternion.identity);
 
-        // Задаём случайный масштаб от 1 до 4
-        float scale = Random.Range(1f, 4f);
+        // Задаём случайный масштаб от 0.75 до 3
+        float scale = Random.Range(0.75f, 3f);
         chicken.transform.localScale = new Vector3(scale, scale, 1f);
 
         // Устанавливаем направление в ChickenMovement

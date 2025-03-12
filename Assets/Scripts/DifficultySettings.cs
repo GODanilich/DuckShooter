@@ -3,10 +3,11 @@ using UnityEngine;
 public class DifficultySettings : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip easyMusic;
     [SerializeField] private AudioClip normalMusic;
     [SerializeField] private AudioClip doomMusic;
 
-    public DifficultyLevel currentDifficulty = DifficultyLevel.Medium;
+    public DifficultyLevel currentDifficulty = DifficultyLevel.Easy;
 
     private static DifficultySettings instance;
 
@@ -19,7 +20,7 @@ public class DifficultySettings : MonoBehaviour
 
     void Awake()
     {
-        audioSource.clip = normalMusic;
+        audioSource.clip = easyMusic;
         audioSource.loop = true;
         audioSource.Play();
 
@@ -40,7 +41,7 @@ public class DifficultySettings : MonoBehaviour
 
     public void SetEasyDifficulty()
     {
-        audioSource.clip = normalMusic;
+        audioSource.clip = easyMusic;
         audioSource.loop = true;
         audioSource.Play();
         currentDifficulty = DifficultyLevel.Easy;

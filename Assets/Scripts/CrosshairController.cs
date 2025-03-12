@@ -40,11 +40,5 @@ public class CrosshairController : MonoBehaviour
             gameManager.Accuracy(true);
             gameManager.AddScore(10);
         }
-        else if (hit.collider.CompareTag("Bonus"))
-        {
-            Destroy(hit.collider.gameObject);
-            gameManager.Accuracy(true);
-            gameManager.AddScore(50);
-        }
     }
 }

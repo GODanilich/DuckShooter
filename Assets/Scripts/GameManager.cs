@@ -7,19 +7,26 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip shootSound;
-    public int score = 0;
-    public float totalGameTime = 60f; // Общее время игры
+
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI accuracy;
+    [SerializeField] private TextMeshProUGUI finalScore;
+
+    [SerializeField] private Canvas gameOverCanvas;
+    [SerializeField] private GameObject crosshair;
+    [SerializeField] private float totalGameTime = 60f; // Общее время игры
+
+    private int score = 0;
+
     private float timeLeft;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI timerText;
-    public TextMeshProUGUI accuracy;
-    public Canvas gameOverCanvas;
-    public GameObject crosshair;
+
+
     private int shotsFired;
     private int shotsHit;
     private float accuracyPercentage;
 
-    // Событие для увеличения сложности (без номера волны)
+    // Ивент для увеличения сложности
     public static event Action OnDifficultyIncreased;
 
     private float increaseInterval = 20f; // Интервал повышения сложности (20 секунд)
@@ -50,8 +57,8 @@ public class GameManager : MonoBehaviour
         // Проверка времени для увеличения сложности
         if (timeSinceLastIncrease >= increaseInterval)
         {
-            OnDifficultyIncreased?.Invoke(); // Уведомляем о повышении сложности
-            timeSinceLastIncrease -= increaseInterval; // Сбрасываем только интервал
+            OnDifficultyIncreased?.Invoke(); // вызов ивента
+            timeSinceLastIncrease -= increaseInterval; // Сброс интервала
         }
 
         // Завершение игры
@@ -90,16 +97,17 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("Игра окончена! Очки: " + score);
-        gameOverCanvas.gameObject.SetActive(true); // Показываем экран окончания игры
-        crosshair.SetActive(false); // Скрываем прицел
-        Time.timeScale = 0f; // Останавливаем игру
-        // Здесь можно добавить логику перехода в меню или перезапуска
+        gameOverCanvas.gameObject.SetActive(true); // экран окончания игры
+        finalScore.text = "Итоговый счёт: " + Math.Round(score * accuracyPercentage / 100, 2).ToString();
+        crosshair.SetActive(false); 
+        Time.timeScale = 0f; 
+ 
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1f; // Возобновляем время
-        SceneManager.LoadScene("GameScene"); // Перезапуск сцены
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("GameScene");
     }
 
     public void QuitGame()
@@ -109,7 +117,7 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        Time.timeScale = 1f; // Возобновляем время
-        SceneManager.LoadScene("MainMenu"); // Переход в главное меню
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }

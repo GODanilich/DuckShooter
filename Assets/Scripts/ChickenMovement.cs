@@ -2,18 +2,19 @@ using UnityEngine;
 
 public class ChickenMovement : MonoBehaviour
 {
-    public float minSpeed = 2f; // Минимальная скорость (доступна для изменения)
-    public float maxSpeed = 5f; // Максимальная скорость (доступна для изменения)
+
+    [SerializeField] private float verticalShiftChance = 0.02f; // Шанс смены высоты (2% за кадр)
+    [SerializeField] private float verticalSpeed = 1f; // Скорость вертикального движения
     private float speed;
     private int direction; // 1 = вправо, -1 = влево
-    public float verticalShiftChance = 0.02f; // Шанс смены высоты (2% за кадр)
-    public float verticalSpeed = 1f; // Скорость вертикального движения
+
     private float targetY; // Целевая высота для плавного перемещения
+
+    public float minSpeed = 2f; // Минимальная скорость (доступна для изменения)
+    public float maxSpeed = 5f; // Максимальная скорость (доступна для изменения)
 
     void Start()
     {
-        // Учитываем масштаб при вычислении скорости (опционально: большие куры медленнее)
-        float scale = transform.localScale.x; // Базовый масштаб уже задан в ChickenSpawner
         speed = Random.Range(minSpeed, maxSpeed);
 
         // Применяем направление к масштабу, сохраняя заданный размер

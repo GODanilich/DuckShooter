@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     private DifficultySettings difficultySettings;
-    public Canvas settings;
-    public Canvas mainMenu;
+    [SerializeField] private Canvas settings;
+    [SerializeField] private Canvas mainMenu;
 
     public void Start()
     {
