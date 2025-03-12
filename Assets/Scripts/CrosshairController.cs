@@ -1,9 +1,9 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class CrosshairController : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip shootSound;
     [SerializeField] private AudioClip hitSound;
 
     void Update()
@@ -20,23 +20,31 @@ public class CrosshairController : MonoBehaviour
         }
     }
 
+
     void Shoot()
     {
-        audioSource.PlayOneShot(shootSound);
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.zero);
-        if (hit.collider != null)
+
+        GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        if (hit.collider == null)
         {
-            if (hit.collider.CompareTag("Chicken"))
-            {
-                audioSource.PlayOneShot(hitSound);
-                Destroy(hit.collider.gameObject);
-                GameObject.Find("GameManager").GetComponent<GameManager>().AddScore(10);
-            }
-            else if (hit.collider.CompareTag("Bonus"))
-            {
-                Destroy(hit.collider.gameObject);
-                GameObject.Find("GameManager").GetComponent<GameManager>().AddScore(50);
-            }
+            gameManager.Accuracy(false);
+        }
+        else if (hit.collider.CompareTag("Chicken"))
+        {
+            //audioSource.volume = Mathf.Clamp01(1f);
+            audioSource.PlayOneShot(hitSound);
+            Destroy(hit.collider.gameObject);
+            gameManager.Accuracy(true);
+            gameManager.AddScore(10);
+        }
+        else if (hit.collider.CompareTag("Bonus"))
+        {
+            Destroy(hit.collider.gameObject);
+            gameManager.Accuracy(true);
+            gameManager.AddScore(50);
         }
     }
 }
